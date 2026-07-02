@@ -8,8 +8,8 @@ All figures on this page are measured directly from the built binary
 
 ```
 $ size build/ecus
-   text     data      bss      dec      hex  filename
-  50596     2192    10344    63132     f69c  build/ecus
+   text     data     bss     dec         hex     filename
+  124620    2596    13200    140417     22480  build/ecus
 ```
 
 | Section | Size | Contents |
@@ -54,26 +54,26 @@ exactly one instance of each, sized at compile time, with no dynamic
 allocation anywhere in the diagnostic hot path:
 
 ```
-┌─────────────────────────────────────────────┐  .bss section
+┌───────────────────────────────────────────────┐  .bss section
 │  CanHal.c                                     │
 │    s_rxStorage[16] × sizeof(CanFrame)  384 B  │
 │    s_txStorage[16] × sizeof(CanFrame)  384 B  │
 │    s_hal (CanHalState)                 ~120 B │
-├─────────────────────────────────────────────┤
+├───────────────────────────────────────────────┤
 │  EcuSession.c                                 │
 │    s_server (UdsServer)               7296 B  │  ◄── dominant consumer
-├─────────────────────────────────────────────┤
+├───────────────────────────────────────────────┤
 │  CrcEngine.c                                  │
 │    s_crc8Table[256]                    256 B  │
 │    s_crc16Table[256]                   512 B  │
 │    s_crc32Table[256]                  1024 B  │
-├─────────────────────────────────────────────┤
+├───────────────────────────────────────────────┤
 │  Logger.c                                     │
 │    s_log (module state + mutex)         ~80 B │
-├─────────────────────────────────────────────┤
+├───────────────────────────────────────────────┤
 │  ErrorHandler.c                               │
 │    s_lastError (atomic_int)              4 B  │
-└─────────────────────────────────────────────┘
+└───────────────────────────────────────────────┘
      Total measured .bss:                10344 B
 ```
 
@@ -99,10 +99,7 @@ or static buffer. **This is a deliberate simplicity trade-off**
 documented here rather than hidden: on a real memory-constrained MCU
 target (e.g. an STM32L0 with 2–8 KB total RAM), this would be converted
 to a `MemPool`-allocated buffer sized to the actual maximum response
-length per service, rather than a flat 256-byte stack array. See
-[`../../FUTURE_ENHANCEMENTS.md`](../../FUTURE_ENHANCEMENTS.md) for this
-noted improvement.
-
+length per service, rather than a flat 256-byte stack array.
 ## 5. Heap Usage
 
 **Zero.** `grep -rn "malloc\|calloc\|realloc\|free(" src/` returns no
