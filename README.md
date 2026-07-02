@@ -300,3 +300,8 @@ MIT — see [`LICENSE`](LICENSE).
 ---
 
 <p align="center">Built as a demonstration of embedded systems C programming for enhancing the concept of C.</p>
+
+
+## Prepared By 
+
+  Chetan S Sunaskar (Embedded Engineer)
