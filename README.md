@@ -141,8 +141,6 @@ Full details: [`docs/HLD.md`](docs/HLD.md), [`docs/LLD.md`](docs/LLD.md),
 ### Build
 
 ```bash
-git clone https://github.com/<your-username>/ecus.git
-cd ecus
 make
 ```
 
